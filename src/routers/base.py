@@ -7,7 +7,7 @@ from src.routers.product import router as product_router
 from src.routers.season_product import router as season_product_router
 from src.routers.user import router as user_router
 
-router = APIRouter(prefix='/')
+router = APIRouter(prefix='')
 
 router.include_router(organization_router)
 router.include_router(dmmt_router)

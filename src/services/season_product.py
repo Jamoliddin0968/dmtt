@@ -7,7 +7,8 @@ class SeasonProductService:
     @staticmethod
     def create_season_product(db: Session, data) -> SeasonProduct:
         new_season_product = SeasonProduct(
-            data.model_dump())
+            **data.model_dump()
+        )
         db.add(new_season_product)
         db.commit()
         db.refresh(new_season_product)
