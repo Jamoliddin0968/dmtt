@@ -5,7 +5,7 @@ from src.utils import get_hashed_password
 class UserService:
     @staticmethod
     async def create_user(data, db):
-        data = data.dict()
+        data = data.model_dump()
         pswd = data.pop('password')
         user = User(**data)
         user.password = get_hashed_password(pswd)

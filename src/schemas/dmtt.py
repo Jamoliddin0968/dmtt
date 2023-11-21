@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class DmttBase(BaseModel):
@@ -12,7 +12,7 @@ class DmttBase(BaseModel):
     tg_user_id: Optional[str] = None
     is_active: bool = True
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -24,7 +24,7 @@ class DmttInfo(BaseModel):
     stir: Optional[str] = None
     tg_user_id: Optional[str] = None
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

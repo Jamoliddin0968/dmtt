@@ -1,5 +1,5 @@
 # Your schemas for the app
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class UserBase(BaseModel):
@@ -13,7 +13,7 @@ class UserInfo(BaseModel):
     name: str
     username: str
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

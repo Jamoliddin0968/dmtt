@@ -10,7 +10,7 @@ class DmttService:
 
     @staticmethod
     async def create_dmtt(data, db):
-        obj = Dmtt(**data.dict())
+        obj = Dmtt(**data.model_dump())
         db.add(obj)
         db.commit()
         db.refresh(obj)
@@ -18,7 +18,7 @@ class DmttService:
 
     @staticmethod
     async def update_dmtt(stir, data, db):
-        db.query(Dmtt).filter(Dmtt.stir == stir).update(data.dict())
+        db.query(Dmtt).filter(Dmtt.stir == stir).update(data.model_dump())
         db.commit()
         return db.query(Dmtt).filter(Dmtt.stir == stir).first()
 

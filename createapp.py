@@ -41,7 +41,7 @@ from src.models.base import BaseModel
     # return new_user""")
 
     with open(os.path.join(schemas_path, f'{app_name}.py'), 'w') as schemas_file:
-        schemas_file.write("# Your schemas for the app")
+        schemas_file.write("from pydantic import BaseModel, ConfigDict")
     with open(os.path.join(routers_path, f'{app_name}.py'), 'w') as routers_file:
         routers_file.write(f"""
 from fastapi import APIRouter
