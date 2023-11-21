@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from src.database import get_db
+from src.dependencies import get_admin
 from src.schemas.dmtt import DmttBase, DmttCreate, DmttUpdate
 from src.services.dmtt import DmttService
 
@@ -11,12 +12,17 @@ router = APIRouter(prefix="/dmtt", tags=["Dmtt"])
 
 
 @router.get('/all', response_model=List[DmttBase])
-def get_all_dmtt(db: Session = Depends(get_db)):
+def get_all_dmtt(db: Session = Depends(get_db), user=Depends(get_admin)):
     return DmttService.get_all_dmtt(db=db)
 
 
+@router.get('/{stir}', response_model=DmttBase)
+def get_all_dmtt(stir: int, db: Session = Depends(get_db), user=Depends(get_admin)):
+    return DmttService.get_dmtt_by_stir(stir=stir, db=db)
+
+
 @router.post("/create")
-async def create(data: DmttCreate, db: Session = Depends(get_db)):
+async def create(data: DmttCreate, db: Session = Depends(get_db), user=Depends(get_admin)):
     if DmttService.check_existing_stir(data.stir, db):
         raise HTTPException(
             status_code=422, detail="Bu STIR li foydalanuvchi allaqachon mavjud")
@@ -25,7 +31,7 @@ async def create(data: DmttCreate, db: Session = Depends(get_db)):
 
 
 @router.put("/update/{stir}")
-async def update_dmtt(stir: str, data: DmttUpdate, db: Session = Depends(get_db)):
+async def update_dmtt(stir: str, data: DmttUpdate, db: Session = Depends(get_db), user=Depends(get_admin)):
     instance = DmttService.get_dmtt_by_stir(stir, db)
     if instance is None:
         raise HTTPException(status_code=404, detail="dmtt not found")
@@ -34,7 +40,7 @@ async def update_dmtt(stir: str, data: DmttUpdate, db: Session = Depends(get_db)
 
 
 @router.delete("/delete/{stir}")
-def delete_dmtt(stir: int, db: Session = Depends(get_db)):
+def delete_dmtt(stir: int, db: Session = Depends(get_db), user=Depends(get_admin)):
     instance = DmttService.get_dmtt_by_stir(stir, db)
     if instance is None:
         raise HTTPException(status_code=404, detail="dmtt not found")

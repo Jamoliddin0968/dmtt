@@ -21,3 +21,7 @@ class AuthService:
             "access_token": create_access_token(user_id),
             "refresh_token": create_refresh_token(user_id)
         }
+
+    @staticmethod
+    def get_user_by_id(user_id, db):
+        return db.query(User).filter(User.id == user_id).first()

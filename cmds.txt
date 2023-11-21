@@ -1,2 +1,2 @@
-alembic revision --autogenerate -m "migarte name"
+alembic revision --autogenerate 
 alembic upgrade head

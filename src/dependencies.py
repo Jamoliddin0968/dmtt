@@ -1,13 +1,15 @@
 from datetime import datetime
-from typing import Any, Union
 
-from app.schemas import SystemUser, TokenPayload
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import ValidationError
-from replit import db
+from sqlalchemy.orm import Session
 
+from src.database import get_db
+from src.models.user import User
+from src.schemas.token import TokenPayload
+from src.services.auth import AuthService
 from src.utils import ALGORITHM, JWT_SECRET_KEY
 
 reuseable_oauth = OAuth2PasswordBearer(
@@ -16,7 +18,7 @@ reuseable_oauth = OAuth2PasswordBearer(
 )
 
 
-async def get_current_user(token: str = Depends(reuseable_oauth)) -> SystemUser:
+async def get_current_user(token: str = Depends(reuseable_oauth), db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(
             token, JWT_SECRET_KEY, algorithms=[ALGORITHM]
@@ -36,7 +38,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> SystemUser:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    user: Union[dict[str, Any], None] = db.get(token_data.sub, None)
+    user = AuthService.get_user_by_id(user_id=token_data.sub, db=db)
 
     if user is None:
         raise HTTPException(
@@ -44,4 +46,14 @@ async def get_current_user(token: str = Depends(reuseable_oauth)) -> SystemUser:
             detail="Could not find user",
         )
 
-    return SystemUser(**user)
+    return user
+
+
+async def get_admin(user: User = Depends(get_current_user)):
+    if user.is_admin:
+        return user
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="You don't have permission to access this resource",
+        headers={"WWW-Authenticate": "Bearer"},
+    )

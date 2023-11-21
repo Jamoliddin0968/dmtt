@@ -5,6 +5,7 @@ from fastapi.responses import UJSONResponse
 from sqlalchemy.orm import Session
 
 from src.database import get_db
+from src.dependencies import get_admin
 # from src.models.organization import Organization
 from src.schemas.organization import (CompanyInfo, OrganizationCreate,
                                       OrganizationUpdate)
@@ -20,12 +21,17 @@ def search_organization(q: str):
 
 
 @router.get("/all", response_model=List[CompanyInfo])
-def get_all_organizations(db: Session = Depends(get_db)):
+def get_all_organizations(db: Session = Depends(get_db), user=Depends(get_admin)):
     return service.get_all_organizations(db)
 
 
+@router.get("/{stir}", response_model=List[CompanyInfo])
+def get_all_organizations(stir: int, db: Session = Depends(get_db), user=Depends(get_admin)):
+    return service.get_organization_by_stir(stir=stir, db=db)
+
+
 @router.post("/create", response_model=CompanyInfo)
-async def create(data: OrganizationCreate, db: Session = Depends(get_db)):
+async def create(data: OrganizationCreate, db: Session = Depends(get_db), user=Depends(get_admin)):
     if service.get_organization_by_stir(data.stir, db):
         raise HTTPException(
             status_code=422, detail="Bu STIR li foydalanuvchi allaqachon mavjud"
@@ -35,7 +41,7 @@ async def create(data: OrganizationCreate, db: Session = Depends(get_db)):
 
 
 @router.put("/update/{stir}", response_model=CompanyInfo)
-async def update_organization(stir: int, data: OrganizationUpdate, db: Session = Depends(get_db)):
+async def update_organization(stir: int, data: OrganizationUpdate, db: Session = Depends(get_db), user=Depends(get_admin)):
     instance = service.get_organization_by_stir(stir, db)
 
     if not instance:
@@ -45,7 +51,7 @@ async def update_organization(stir: int, data: OrganizationUpdate, db: Session =
 
 
 @router.delete("/delete/{stir}/")
-def delete_organization(stir: int, db: Session = Depends(get_db)):
+def delete_organization(stir: int, db: Session = Depends(get_db), user=Depends(get_admin)):
     instance = service.get_organization_by_stir(stir, db)
 
     if not instance:

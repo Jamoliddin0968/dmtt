@@ -9,3 +9,5 @@ class User(BaseModel):
     name = Column(String(50))
     username = Column(String(31))
     password = Column(String(255))
+    is_admin = Column(Boolean, default=False)
+    is_super_admin = Column(Boolean, default=False)

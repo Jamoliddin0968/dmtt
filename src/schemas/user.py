@@ -8,8 +8,13 @@ class UserBase(BaseModel):
     password: str
 
 
-class UserInfo(UserBase):
-    pass
+class UserInfo(BaseModel):
+    id: int
+    name: str
+    username: str
+
+    class Config:
+        from_attributes = True
 
 
 class UserCreate(UserBase):

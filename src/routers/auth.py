@@ -13,5 +13,5 @@ def login(data: AuthSchema, db: Session = Depends(get_db)):
     user = AuthService.authenticate(data, db)
     if not user:
         raise HTTPException(
-            status_code=422, detail="mumkinbas sizga ")
+            status_code=422, detail="mumkinbas sizga")
     return AuthService.get_tokens(user_id=user.id)
