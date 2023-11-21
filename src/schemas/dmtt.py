@@ -1,8 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field, constr
-
-# from pydantic import BaseModel
+from pydantic import BaseModel
 
 
 class DmttBase(BaseModel):
@@ -10,7 +8,7 @@ class DmttBase(BaseModel):
     person: str
     phone_number: str
     address: Optional[str] = None
-    stir: str = None
+    stir: Optional[str] = None
     tg_user_id: Optional[str] = None
     is_active: bool = True
 
@@ -22,9 +20,9 @@ class DmttInfo(BaseModel):
     name: str
     person: str
     phone_number: str
-    address: str = None
-    stir: str = None
-    tg_user_id: str = None
+    address: Optional[str] = None
+    stir: Optional[str] = None
+    tg_user_id: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -41,4 +39,4 @@ class DmttUpdate(BaseModel):
     name: str
     person: str
     phone_number: str
-    # stir: str
+    # stir: str  # Uncomment this line if needed for the update

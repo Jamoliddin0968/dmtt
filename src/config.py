@@ -1,5 +1,7 @@
 from decouple import config
 
+SECRET_KEY = config('JWT_SECRET_KEY', "")
+REFRESH_SECRET_KEY = config('JWT_REFRESH_SECRET_KEY')
 DB_NAME = config('DB_NAME', 'test')
 DB_HOST = config('DB_HOST', 'localhost')
 DB_PORT = config('DB_PORT', 3306)

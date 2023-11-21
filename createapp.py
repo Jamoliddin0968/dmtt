@@ -27,7 +27,11 @@ def create_app_structure(app_name):
 
     # Creating app_name.py files in each directory
     with open(os.path.join(models_path, f'{app_name}.py'), 'w') as models_file:
-        models_file.write("#Your models for the app")
+        models_file.write("""#Your models for the app
+                          from sqlalchemy import Boolean, Column, Integer, String
+
+from src.models.base import BaseModel
+""")
 
     with open(os.path.join(services_path, f'{app_name}.py'), 'w') as services_file:
         services_file.write("""# new_user = models.User(name=request.name, email=request.email, password=request.password)
