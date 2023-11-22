@@ -23,9 +23,14 @@ def get_all_company(db: Session = Depends(get_db), user=Depends(get_admin)):
     return service.get_all_companys(db)
 
 
-@router.get("/{stir}", response_model=List[CompanyInfo])
-def get_company(stir: int, db: Session = Depends(get_db), user=Depends(get_admin)):
-    return service.get_company_by_stir(stir=stir, db=db)
+@router.get("/{stir}", response_model=CompanyInfo)
+def get_company(stir: str, db: Session = Depends(get_db), user=Depends(get_admin)):
+    res = service.get_company_by_stir(stir=stir, db=db)
+    if res:
+        return res
+    raise HTTPException(
+        status_code=404, detail="not found"
+    )
 
 
 @router.post("/create", response_model=CompanyInfo)

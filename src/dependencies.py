@@ -13,7 +13,7 @@ from src.services.auth import AuthService
 from src.utils import ALGORITHM, JWT_SECRET_KEY
 
 reuseable_oauth = OAuth2PasswordBearer(
-    tokenUrl="/login",
+    tokenUrl="/auth/swagger/login",
     scheme_name="JWT"
 )
 

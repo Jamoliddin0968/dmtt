@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class CompanyInfo(BaseModel):
@@ -6,9 +6,14 @@ class CompanyInfo(BaseModel):
     stir: str
     phone_number: str
 
+    class ConfigDict:
+        from_attributes = True
+
 
 class CompanyCreate(CompanyInfo):
-    pass
+    name: str
+    stir: str
+    phone_number: str
 
 
 class CompanyUpdate(BaseModel):

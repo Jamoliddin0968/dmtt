@@ -20,4 +20,5 @@
         "editor.defaultFormatter": "ms-python.autopep8"
     },
     // "python.linting.mypyEnabled": true
+    "python.terminal.activateEnvironment": true
 }

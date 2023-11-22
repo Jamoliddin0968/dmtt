@@ -35,3 +35,7 @@ class DmttService:
     @staticmethod
     def get_dmtt_by_stir(stir: str, db: Session):
         return db.query(Dmtt).filter(Dmtt.stir == stir).first()
+
+    @staticmethod
+    def get_dmtt_by_id(id: int, db):
+        return db.query(Dmtt).filter(Dmtt.id == id).first()

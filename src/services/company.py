@@ -87,3 +87,7 @@ class CompanyService:
     @staticmethod
     def get_company_by_stir(stir: int, db: Session):
         return db.query(Company).filter(Company.stir == stir).first()
+
+    @staticmethod
+    def get_company_by_id(id: int, db):
+        return db.query(Company).filter(Company.id == id).first()
