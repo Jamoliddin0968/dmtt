@@ -1,4 +1,5 @@
-from sqlalchemy import DOUBLE, Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import (DOUBLE, Boolean, Column, Float, ForeignKey, Integer,
+                        String)
 from sqlalchemy.orm import relationship
 
 from src.models.base import BaseModel
@@ -20,7 +21,7 @@ class Limit(BaseModel):
 class LimitItem(BaseModel):
     __tablename__ = "limit_item"
 
-    count = Column(DOUBLE, default=0)
+    count = Column(Float, default=0)
     limit_id = Column(Integer, ForeignKey('limit.id', ondelete='CASCADE'))
     product_id = Column(Integer, ForeignKey('products.id', ondelete='CASCADE'))
     product = relationship('Product', back_populates='limit_products')
