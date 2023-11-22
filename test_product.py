@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi.testclient import TestClient
 
 from main import app  # Assuming your FastAPI app instance is named "app"
@@ -39,3 +41,11 @@ def test_by_id():
     product = response.json()
     # Ensure that the response contains a list of products
     assert product["id"] == 1
+
+
+def test_company():
+    response = client.get("/company/all")
+    assert response.status_code == 200
+    content = response.json()
+    # Ensure that the response contains a list of products
+    assert isinstance(content, List)

@@ -1,4 +1,5 @@
 from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy.orm import relationship
 
 from src.models.base import BaseModel
 
@@ -13,6 +14,9 @@ class Dmtt(BaseModel):
     stir = Column(String(10), nullable=True)
     tg_user_id = Column(String(10), nullable=True)
     is_active = Column(Boolean(), default=True)
+
+    connect_dmtt = relationship(
+        'Connection', back_populates='dmtt')
 
     def __repr__(self):
         return f"<dmtt(name='{self.name}')>"

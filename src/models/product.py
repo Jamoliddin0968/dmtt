@@ -2,7 +2,6 @@
 import enum
 
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-# Enum for seasons
 from sqlalchemy.orm import relationship
 
 from src.models.base import BaseModel
@@ -14,8 +13,6 @@ class Seasons(enum.Enum):
     SPRING = 1
     AUTUMN = 3
 
-# Product model
-
 
 class Product(BaseModel):
     __tablename__ = 'products'
@@ -26,4 +23,5 @@ class Product(BaseModel):
     season_associations = relationship(
         'SeasonProduct', back_populates='product')
 
-# SeasonProduct association table model
+    connect_products = relationship(
+        'Connection', back_populates='product')

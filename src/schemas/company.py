@@ -7,10 +7,10 @@ class CompanyInfo(BaseModel):
     phone_number: str
 
 
-class OrganizationCreate(CompanyInfo):
+class CompanyCreate(CompanyInfo):
     pass
 
 
-class OrganizationUpdate(BaseModel):
+class CompanyUpdate(BaseModel):
     name: str
     phone_number: str

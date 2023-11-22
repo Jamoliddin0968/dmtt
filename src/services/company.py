@@ -2,18 +2,18 @@ import requests
 from bs4 import BeautifulSoup
 from sqlalchemy.orm import Session
 
-from src.models.organization import Organization
+from src.models.company import Company
 
 
-class OrganizationService:
+class CompanyService:
     @staticmethod
-    def search_organization(q: str):
+    def search_company(q: str):
         # Perform a search on 'orginfo.uz' based on the query
         lst = []
         params = {'q': q}
         try:
             response = requests.get(
-                'https://orginfo.uz/uz/search/organizations/', params=params)
+                'https://orginfo.uz/uz/search/Companys/', params=params)
             response.raise_for_status()
             soup = BeautifulSoup(response.text, "html.parser")
             data_content = soup.find_all(
@@ -55,12 +55,12 @@ class OrganizationService:
         return lst
 
     @staticmethod
-    def get_all_organizations(db: Session):
-        return db.query(Organization).filter(Organization.is_active == True).all()
+    def get_all_companys(db: Session):
+        return db.query(Company).filter(Company.is_active == True).all()
 
     @staticmethod
-    async def create_organization(data, db: Session):
-        obj = Organization(
+    async def create_company(data, db: Session):
+        obj = Company(
             name=data.name,
             stir=data.stir,
             phone_number=data.phone_number
@@ -71,7 +71,7 @@ class OrganizationService:
         return obj
 
     @staticmethod
-    async def update_organization(instance, data, db: Session):
+    async def update_company(instance, data, db: Session):
         instance.name = data.name
         instance.phone_number = data.phone_number
         db.commit()
@@ -79,11 +79,11 @@ class OrganizationService:
         return instance
 
     @staticmethod
-    def delete_organization(instance, db: Session):
+    def delete_company(instance, db: Session):
         instance.is_active = False
         db.commit()
         return True
 
     @staticmethod
-    def get_organization_by_stir(stir: int, db: Session):
-        return db.query(Organization).filter(Organization.stir == stir).first()
+    def get_company_by_stir(stir: int, db: Session):
+        return db.query(Company).filter(Company.stir == stir).first()

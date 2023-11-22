@@ -10,6 +10,6 @@ class SeasonProduct(BaseModel):
 
     id = Column(Integer, primary_key=True)
     season = Column(Integer)
-    product_id = Column(Integer, ForeignKey('products.id'))
+    product_id = Column(Integer, ForeignKey('products.id', ondelete='CASCADE'))
 
     product = relationship('Product', back_populates='season_associations')
