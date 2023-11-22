@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+
 from src.models.product import Product
 
 

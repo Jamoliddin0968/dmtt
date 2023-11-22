@@ -12,6 +12,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 # Dependency
+# Base.metadata.create_all(engine)
 
 
 def get_db():
