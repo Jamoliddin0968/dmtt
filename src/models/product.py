@@ -25,3 +25,5 @@ class Product(BaseModel):
 
     connect_products = relationship(
         'Connection', back_populates='product')
+
+    limit_item = relationship('LimitItem', back_populates='product')

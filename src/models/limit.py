@@ -13,9 +13,10 @@ class Limit(BaseModel):
     dmtt_id = Column(Integer, ForeignKey('dmtt.id', ondelete='CASCADE'))
     period_id = Column(Integer, ForeignKey('period.id', ondelete='CASCADE'))
 
-    period = relationship('Period', back_populates='limit_period')
-    dmtt = relationship('Dmtt', back_populates='limit_dmtt')
-    company = relationship('Company', back_populates='limit_company')
+    period = relationship('Period', back_populates='limit')
+    dmtt = relationship('Dmtt', back_populates='limit')
+    company = relationship('Company', back_populates='limit')
+    limit_item = relationship("LimitItem", back_populates="limit")
 
 
 class LimitItem(BaseModel):
@@ -24,5 +25,6 @@ class LimitItem(BaseModel):
     count = Column(Float, default=0)
     limit_id = Column(Integer, ForeignKey('limit.id', ondelete='CASCADE'))
     product_id = Column(Integer, ForeignKey('products.id', ondelete='CASCADE'))
-    product = relationship('Product', back_populates='limit_products')
-    limit = relationship('Limit', back_populates='limit_items')
+
+    product = relationship('Product', back_populates='limit_item')
+    limit = relationship('Limit', back_populates='limit_item')

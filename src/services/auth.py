@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from src.models.user import User
@@ -11,9 +12,11 @@ class AuthService:
     def authenticate(data, db):
         username, password = data.username, data.password
         user = db.query(User).filter(User.username == username).first()
-        if user and verify_password(password=password, hashed_pass=user.password):
-            return user
-        return None
+        if user:
+            if verify_password(password=password, hashed_pass=user.password):
+                return user
+        raise HTTPException(
+            status_code=401, detail="mumkinbas sizga")
 
     @staticmethod
     def get_tokens(user_id):

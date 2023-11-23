@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from src.models.company import Company
@@ -60,6 +61,10 @@ class CompanyService:
 
     @staticmethod
     async def create_company(data, db: Session):
+        if CompanyService.get_company_by_stir(data.stir, db):
+            raise HTTPException(
+                status_code=422, detail="Bu STIR li foydalanuvchi allaqachon mavjud"
+            )
         obj = Company(
             name=data.name,
             stir=data.stir,
@@ -71,7 +76,8 @@ class CompanyService:
         return obj
 
     @staticmethod
-    async def update_company(instance, data, db: Session):
+    async def update_company(stir, data, db: Session):
+        instance = CompanyService.get_company_by_stir(stir=stir, db=db)
         instance.name = data.name
         instance.phone_number = data.phone_number
         db.commit()
@@ -86,7 +92,12 @@ class CompanyService:
 
     @staticmethod
     def get_company_by_stir(stir: int, db: Session):
-        return db.query(Company).filter(Company.stir == stir).first()
+        company = db.query(Company).filter(Company.stir == stir).first()
+        if not company:
+            raise HTTPException(
+                status_code=404, detail="not found"
+            )
+        return company
 
     @staticmethod
     def get_company_by_id(id: int, db):

@@ -14,8 +14,7 @@ router = APIRouter(prefix="/company", tags=["Firma"])
 
 @router.get("/search/{q}", response_model=List[CompanyInfo])
 def search_company(q: str):
-    res = service.search_company(q)
-    return res
+    return service.search_company(q)
 
 
 @router.get("/all", response_model=List[CompanyInfo])
@@ -25,32 +24,17 @@ def get_all_company(db: Session = Depends(get_db), user=Depends(get_admin)):
 
 @router.get("/{stir}", response_model=CompanyInfo)
 def get_company(stir: str, db: Session = Depends(get_db), user=Depends(get_admin)):
-    res = service.get_company_by_stir(stir=stir, db=db)
-    if res:
-        return res
-    raise HTTPException(
-        status_code=404, detail="not found"
-    )
+    return service.get_company_by_stir(stir=stir, db=db)
 
 
 @router.post("/create", response_model=CompanyInfo)
 async def create(data: CompanyCreate, db: Session = Depends(get_db), user=Depends(get_admin)):
-    if service.get_company_by_stir(data.stir, db):
-        raise HTTPException(
-            status_code=422, detail="Bu STIR li foydalanuvchi allaqachon mavjud"
-        )
-    new_company = await service.create_company(data=data, db=db)
-    return new_company
+    return await service.create_company(data=data, db=db)
 
 
 @router.put("/update/{stir}", response_model=CompanyInfo)
-async def update_company(stir: int, data: CompanyUpdate, db: Session = Depends(get_db), user=Depends(get_admin)):
-    instance = service.get_company_by_stir(stir, db)
-
-    if not instance:
-        raise HTTPException(status_code=404, detail="Company not found")
-    updated_instance = await service.update_company(instance=instance, data=data, db=db)
-    return updated_instance
+async def update_company(stir: str, data: CompanyUpdate, db: Session = Depends(get_db), user=Depends(get_admin)):
+    return await service.update_company(stir=stir, data=data, db=db)
 
 
 @router.delete("/delete/{stir}/")

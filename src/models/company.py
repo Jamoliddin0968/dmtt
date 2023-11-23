@@ -16,5 +16,7 @@ class Company(BaseModel):
     connect_company = relationship(
         'Connection', back_populates='company')
 
+    limit = relationship('Limit', back_populates='company')
+
     def __repr__(self):
         return f"<Company(name='{self.name}')>"

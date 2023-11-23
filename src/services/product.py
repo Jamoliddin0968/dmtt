@@ -15,11 +15,15 @@ class ProductService:
         return db.query(Product).all()
 
     def get_product_by_id(db, product_id):
-        return db.query(Product).filter(Product.id == product_id).first()
+        product = db.query(Product).filter(Product.id == product_id).first()
+        if product is None:
+            raise HTTPException(status_code=404, detail="Product not found")
+        return product
 
     def update_product(db, product_id, product_data):
+        db_product = ProductService.get_product_by_id(
+            db=db, product_id=product_id)
         product_data = product_data.model_dump()
-        db_product = db.query(Product).filter(Product.id == product_id).first()
         for key, value in product_data.items():
             setattr(db_product, key, value)
         db.commit()
@@ -27,7 +31,8 @@ class ProductService:
         return db_product
 
     def delete_product(db, product_id):
-        db_product = db.query(Product).filter(Product.id == product_id).first()
+        db_product = ProductService.get_product_by_id(
+            db=db, product_id=product_id)
         db.delete(db_product)
         db.commit()
-        return True
+        return {"message": "Product deleted"}

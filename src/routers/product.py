@@ -1,7 +1,7 @@
 
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from src.database import get_db
@@ -23,24 +23,14 @@ def read_products(db: Session = Depends(get_db)):
 
 @router.get("/{product_id}", response_model=ProductInfo)
 def read_product(product_id: int, db: Session = Depends(get_db)):
-    db_product = ProductService.get_product_by_id(db=db, product_id=product_id)
-    if db_product is None:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return db_product
+    return ProductService.get_product_by_id(db=db, product_id=product_id)
 
 
 @router.put("/update/{product_id}", response_model=ProductInfo)
 def update_product(product_id: int, data: ProductUpdate, db: Session = Depends(get_db)):
-    db_product = ProductService.get_product_by_id(db=db, product_id=product_id)
-    if db_product is None:
-        raise HTTPException(status_code=404, detail="Product not found")
     return ProductService.update_product(db=db, product_id=product_id, product_data=data)
 
 
 @router.delete("/delete/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
-    db_product = ProductService.get_product_by_id(db=db, product_id=product_id)
-    if db_product is None:
-        raise HTTPException(status_code=404, detail="Product not found")
-    ProductService.delete_product(db=db, product_id=product_id)
-    return {"message": "Product deleted"}
+    return ProductService.delete_product(db=db, product_id=product_id)
