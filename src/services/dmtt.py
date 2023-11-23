@@ -11,6 +11,9 @@ class DmttService:
 
     @staticmethod
     async def create_dmtt(data, db):
+        if DmttService.check_existing_stir(data.stir, db):
+            raise HTTPException(
+            status_code=422, detail="Bu STIR li foydalanuvchi allaqachon mavjud")
         obj = Dmtt(**data.model_dump())
         db.add(obj)
         db.commit()
@@ -18,16 +21,18 @@ class DmttService:
         return obj
 
     @staticmethod
-    async def update_dmtt(stir, data, db):
-        db.query(Dmtt).filter(Dmtt.stir == stir).update(data.model_dump())
+    async def update_dmtt(id, data, db):
+        instance = DmttService.get_dmtt_by_id(id, db)
+        db.query(Dmtt).filter(Dmtt.id == id).update(data.model_dump())
         db.commit()
-        return db.query(Dmtt).filter(Dmtt.stir == stir).first()
+        return db.query(Dmtt).filter(Dmtt.id == id).first()
 
     @staticmethod
-    def delete_dmtt(instance, db):
+    def delete_dmtt(id, db):
+        instance = DmttService.get_dmtt_by_id(id, db)
         instance.is_active = False
         db.commit()
-        return True
+        return {"detail":"delete"}
 
     @staticmethod
     def check_existing_stir(stir: str, db: Session) -> bool:

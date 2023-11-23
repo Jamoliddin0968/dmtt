@@ -1,5 +1,8 @@
 {
     "editor.formatOnSave": true,
+    // "files.": {
+    //     "**/tests": true,
+    // },
     "python.formatting.provider": "none",
     "python.formatting.blackArgs": [
         "--line-length=120"
@@ -20,5 +23,8 @@
         "editor.defaultFormatter": "ms-python.autopep8"
     },
     // "python.linting.mypyEnabled": true
-    "python.terminal.activateEnvironment": true
+    "python.terminal.activateEnvironment": true,
+    // "files.exclude": {
+    //     "**/tests": true,
+    // }
 }

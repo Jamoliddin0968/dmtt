@@ -2,6 +2,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class CompanyInfo(BaseModel):
+    id: int
     name: str
     stir: str
     phone_number: str
@@ -10,7 +11,7 @@ class CompanyInfo(BaseModel):
         from_attributes = True
 
 
-class CompanyCreate(CompanyInfo):
+class CompanyCreate(BaseModel):
     name: str
     stir: str
     phone_number: str

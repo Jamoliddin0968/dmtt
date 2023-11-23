@@ -3,20 +3,8 @@ from typing import Optional
 from pydantic import BaseModel, ConfigDict
 
 
-class DmttBase(BaseModel):
-    name: str
-    person: str
-    phone_number: str
-    address: Optional[str] = None
-    stir: Optional[str] = None
-    tg_user_id: Optional[str] = None
-    is_active: bool = True
-
-    class ConfigDict:
-        from_attributes = True
-
-
 class DmttInfo(BaseModel):
+    id:int
     name: str
     person: str
     phone_number: str
@@ -35,8 +23,5 @@ class DmttCreate(BaseModel):
     stir: str
 
 
-class DmttUpdate(BaseModel):
-    name: str
-    person: str
-    phone_number: str
-    # stir: str  # Uncomment this line if needed for the update
+class DmttUpdate(DmttCreate):
+    pass

@@ -61,7 +61,7 @@ class CompanyService:
 
     @staticmethod
     async def create_company(data, db: Session):
-        if CompanyService.get_company_by_stir(data.stir, db):
+        if CompanyService.check_exists_stir(stir=data.stir, db=db):
             raise HTTPException(
                 status_code=422, detail="Bu STIR li foydalanuvchi allaqachon mavjud"
             )
@@ -76,8 +76,8 @@ class CompanyService:
         return obj
 
     @staticmethod
-    async def update_company(stir, data, db: Session):
-        instance = CompanyService.get_company_by_stir(stir=stir, db=db)
+    async def update_company(id, data, db: Session):
+        instance = CompanyService.get_company_by_id(id=id, db=db)
         instance.name = data.name
         instance.phone_number = data.phone_number
         db.commit()
@@ -85,8 +85,8 @@ class CompanyService:
         return instance
 
     @staticmethod
-    def delete_company(stir, db: Session):
-        instance = CompanyService.get_company_by_stir(stir, db)
+    def delete_company(id, db: Session):
+        instance = CompanyService.get_company_by_id(id=id, db=db)
         instance.is_active = False
         db.commit()
         return {"detail": "delete"}
@@ -109,3 +109,9 @@ class CompanyService:
                 detail="Bunday id li companiya yo'q"
             )
         return company
+
+    @staticmethod
+    def check_exists_stir(stir, db):
+        if db.query(Company).filter_by(stir=stir).first():
+            return True
+        return False

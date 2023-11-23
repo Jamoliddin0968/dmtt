@@ -2,26 +2,22 @@
 from pydantic import BaseModel, ConfigDict
 
 
-# Pydantic schemas for Product and SeasonProduct models
-class ProductBase(BaseModel):
+class ProductCreate(BaseModel):
     name: str
     measure: str
     code: str
+    winter: bool = False
+    spring: bool = False
+    summer: bool = False
+    autumn: bool = False
 
 
-class ProductCreate(ProductBase):
+class ProductUpdate(ProductCreate):
     pass
 
 
-class ProductUpdate(ProductBase):
-    pass
-
-
-class ProductInfo(ProductBase):
+class ProductInfo(ProductCreate):
     id: int
 
     class ConfigDict:
         from_attributes = True
-
-
-# Additional schemas if needed

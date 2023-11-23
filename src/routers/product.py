@@ -21,7 +21,7 @@ def read_products(db: Session = Depends(get_db)):
     return ProductService.get_products(db=db)
 
 
-@router.get("/{product_id}", response_model=ProductInfo)
+@router.get("/detail/{product_id}", response_model=ProductInfo)
 def read_product(product_id: int, db: Session = Depends(get_db)):
     return ProductService.get_product_by_id(db=db, product_id=product_id)
 
@@ -34,3 +34,24 @@ def update_product(product_id: int, data: ProductUpdate, db: Session = Depends(g
 @router.delete("/delete/{product_id}")
 def delete_product(product_id: int, db: Session = Depends(get_db)):
     return ProductService.delete_product(db=db, product_id=product_id)
+
+
+@router.get("/winter", response_model=List[ProductInfo])
+def read_winter_products(db: Session = Depends(get_db)):
+    return ProductService.get_winter_products(db=db)
+
+
+@router.get("/summer", response_model=List[ProductInfo])
+def read_summer_products(db: Session = Depends(get_db)):
+    return ProductService.get_summer_products(db=db)
+
+
+@router.get("/spring", response_model=List[ProductInfo])
+def read_spring_products(db: Session = Depends(get_db)):
+    return ProductService.get_spring_products(db=db)
+
+
+@router.get("/autumn")
+def read_autumn_products(db: Session = Depends(get_db)) -> List[ProductInfo]:
+    return []
+    return ProductService.get_autumn_products(db=db)

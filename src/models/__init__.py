@@ -4,5 +4,4 @@ from src.models.dmtt import Dmtt
 from src.models.limit import Limit
 from src.models.period import Period
 from src.models.product import Product
-from src.models.season_product import SeasonProduct
 from src.models.user import User

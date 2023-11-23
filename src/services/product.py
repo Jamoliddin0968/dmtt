@@ -1,10 +1,12 @@
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
 
 from src.models.product import Product
+from src.schemas.product import ProductCreate
 
 
 class ProductService:
-    def create_product(db, product_data):
+    def create_product(db, product_data: ProductCreate):
         db_product = Product(**product_data.model_dump())
         db.add(db_product)
         db.commit()
@@ -36,3 +38,19 @@ class ProductService:
         db.delete(db_product)
         db.commit()
         return {"message": "Product deleted"}
+
+    @staticmethod
+    def get_winter_products(db: Session):
+        return db.query(Product).filter(Product.winter == True).all()
+
+    @staticmethod
+    def get_summer_products(db: Session):
+        return db.query(Product).filter(Product.summer == True).all()
+
+    @staticmethod
+    def get_spring_products(db: Session):
+        return db.query(Product).filter(Product.spring == True).all()
+
+    @staticmethod
+    def get_autumn_products(db: Session):
+        return db.query(Product).filter(Product.autumn == True).all()
