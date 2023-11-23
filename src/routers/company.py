@@ -38,10 +38,5 @@ async def update_company(stir: str, data: CompanyUpdate, db: Session = Depends(g
 
 
 @router.delete("/delete/{stir}/")
-def delete_company(stir: int, db: Session = Depends(get_db), user=Depends(get_admin)):
-    instance = service.get_company_by_stir(stir, db)
-
-    if not instance:
-        raise HTTPException(status_code=404, detail="Company not found")
-    service.delete_company(instance, db)
-    return UJSONResponse(content={"detail": "delete"}, status_code=200)
+def delete_company(stir: int, db: Session = Depends(get_db), user=Depends(get_admin)):   
+    return service.delete_company(stir=stir, db)

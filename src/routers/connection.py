@@ -15,21 +15,6 @@ router = APIRouter(prefix='/connection', tags=["Connection"])
 
 @router.post("/create", response_model=ConnectionInfo)
 def create_connection(data: ConnectionCreate, db: Session = Depends(get_db)):
-    if not CompanyService.get_company_by_id(id=data.company_id, db=db):
-        raise HTTPException(
-            status_code=404,
-            detail="Bunday id li companiya yo'q"
-        )
-    if not DmttService.get_dmtt_by_id(id=data.dmtt_id, db=db):
-        raise HTTPException(
-            status_code=404,
-            detail="Bunday id li dmtt yo'q"
-        )
-    if not ProductService.get_product_by_id(product_id=data.product_id, db=db):
-        raise HTTPException(
-            status_code=404,
-            detail="Bunday id li product yo'q"
-        )
     return ConnectionService.create_connection(db=db, data=data)
 
 
@@ -67,30 +52,14 @@ def get_connections_by_product_id(product_id: int, db: Session = Depends(get_db)
 
 @router.get("/by_company_id/{company_id}", response_model=List[ConnectionInfo])
 def get_connections_by_company_id(company_id: int, db: Session = Depends(get_db)):
-    connections = ConnectionService.get_by_company_id(
+    return ConnectionService.get_by_company_id(
         db=db, company_id=company_id)
-    return connections
 
 
 @router.post('/create_list')
 async def create_list_connection(dataList: List[ConnectionCreate], db: Session = Depends(get_db)):
     new_connectons = []
     for data in dataList:
-        if not CompanyService.get_company_by_id(id=data.company_id, db=db):
-            raise HTTPException(
-                status_code=404,
-                detail="Bunday id li companiya yo'q"
-            )
-        if not DmttService.get_dmtt_by_id(id=data.dmtt_id, db=db):
-            raise HTTPException(
-                status_code=404,
-                detail="Bunday id li dmtt yo'q"
-            )
-        if not ProductService.get_product_by_id(product_id=data.product_id, db=db):
-            raise HTTPException(
-                status_code=404,
-                detail="Bunday id li product yo'q"
-            )
         new_conn = ConnectionService.create_connection(data=data, db=db)
         new_connectons.append(new_conn)
     return new_connectons

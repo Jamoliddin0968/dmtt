@@ -85,10 +85,11 @@ class CompanyService:
         return instance
 
     @staticmethod
-    def delete_company(instance, db: Session):
+    def delete_company(stir, db: Session):
+        instance = CompanyService.get_company_by_stir(stir, db)
         instance.is_active = False
         db.commit()
-        return True
+        return {"detail": "delete"}
 
     @staticmethod
     def get_company_by_stir(stir: int, db: Session):
@@ -101,4 +102,10 @@ class CompanyService:
 
     @staticmethod
     def get_company_by_id(id: int, db):
-        return db.query(Company).filter(Company.id == id).first()
+        company = db.query(Company).filter(Company.id == id).first()
+        if not company:
+            raise HTTPException(
+                status_code=404,
+                detail="Bunday id li companiya yo'q"
+            )
+        return company

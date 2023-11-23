@@ -15,6 +15,10 @@ class ConnectionService:
             company_id=data.company_id, product_id=data.product_id, dmtt_id=data.dmtt_id, db=db)
         if obj:
             return obj
+        company = CompanyService.get_company_by_id(id=data.company_id, db=db)
+        dmtt = DmttService.get_dmtt_by_id(id=data.dmtt_id, db=db)
+        product = ProductService.get_product_by_id(
+            product_id=data.product_id, db=db)
         new_connection = Connection(
             **data.model_dump())
         db.add(new_connection)
@@ -49,5 +53,4 @@ class ConnectionService:
 
     @staticmethod
     def create_list_connections(db, data_list):
-
         pass

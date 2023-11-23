@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from src.models.dmtt import Dmtt
@@ -38,4 +39,10 @@ class DmttService:
 
     @staticmethod
     def get_dmtt_by_id(id: int, db):
-        return db.query(Dmtt).filter(Dmtt.id == id).first()
+        dmtt = db.query(Dmtt).filter(Dmtt.id == id).first()
+        if not dmtt:
+            raise HTTPException(
+                status_code=404,
+                detail="Bunday id li dmtt yo'q"
+            )
+        return dmtt
