@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from src.database import get_db
+from src.models.product import Product
 from src.schemas.product import ProductCreate, ProductInfo, ProductUpdate
 from src.services.product import ProductService
 

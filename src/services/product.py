@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 
 from src.models.product import Product
@@ -14,7 +15,8 @@ class ProductService:
         return db_product
 
     def get_products(db):
-        return db.query(Product).all()
+        result = db.execute(text("select * from products")).fetchall()
+        return result
 
     def get_product_by_id(db, product_id):
         product = db.query(Product).filter(Product.id == product_id).first()

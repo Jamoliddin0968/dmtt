@@ -1,5 +1,6 @@
 
 # from main import admin
+from debug_toolbar.middleware import DebugToolbarMiddleware
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 from sqladmin import Admin, ModelView
@@ -9,7 +10,9 @@ from src.models.user import User
 # from src.models.user import User
 from src.routers.base import router as base_router
 
-app = FastAPI()
+app = FastAPI(debug=True)
+app.add_middleware(DebugToolbarMiddleware, panels=[
+                   "debug_toolbar.panels.sqlalchemy.SQLAlchemyPanel"],)
 
 app.include_router(base_router)
 # fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff

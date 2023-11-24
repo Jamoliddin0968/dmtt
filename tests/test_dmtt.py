@@ -8,9 +8,7 @@ from typing import List
 
 from fastapi.testclient import TestClient
 
-from main import app  # Assuming your FastAPI app instance is named "app"
-
-# Append the parent directory of the current file (tests directory) to the Python path
+from main import app  
 
 
 
