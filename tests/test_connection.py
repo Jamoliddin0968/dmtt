@@ -49,3 +49,23 @@ def test_get_connections_by_company_id():
         response = client.get("/connection/by_company_id/1")
         assert response.status_code == 200
         assert isinstance(response.json(), List)
+
+def test_get_company_create():
+    data =    {
+  "company_id":1,
+  "items": [
+    {
+      "dmtt_id": 1,
+      "product_id": 36
+    },
+    {
+      "dmtt_id": 1,
+      "product_id": 37
+    }
+  ]
+}
+    response = client.post("/connection/company/create/",json=data)
+    if response.status_code == 200:
+        assert len(data["items"])==len(response.json())
+        assert isinstance(response.json(), List)
+

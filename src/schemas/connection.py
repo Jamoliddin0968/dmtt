@@ -1,3 +1,5 @@
+from typing import List
+
 from pydantic import BaseModel, ConfigDict
 
 
@@ -16,3 +18,13 @@ class ConnectionInfo(ConnectionBase):
 
     class ConfigDict:
         from_attributes = True
+
+
+class ConnectionItem(BaseModel):
+    dmtt_id: int
+    product_id: int
+
+
+class CompanyConnectionCreate(BaseModel):
+    company_id: int
+    items: List[ConnectionItem]
