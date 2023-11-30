@@ -1,30 +1,28 @@
+from xhtml2pdf import pisa
+
+# Function to convert HTML file to PDF
 
 
-import threading
-import time
+def convert_html_file_to_pdf(input_html_file, output_pdf_file):
+    # Read HTML content from file
+    with open(input_html_file, 'r', encoding='utf-8') as file:
+        html_content = file.read()
+
+    # Create a PDF file
+    with open(output_pdf_file, 'wb') as output_pdf:
+        # Convert HTML to PDF
+        pisa_status = pisa.CreatePDF(html_content, dest=output_pdf)
+
+    if pisa_status.err:
+        print(f"Failed to generate PDF: {pisa_status.err}")
+    else:
+        print(f"PDF successfully generated: {output_pdf_file}")
 
 
-def print_fib(number: int) -> None:
-    def fib(n: int) -> int:
-        if n == 1:
-            return 0
-        elif n == 2:
-            return 1
-        else:
-            return fib(n - 1) + fib(n - 2)
-    print(fib(number))
+# Input HTML file path and output PDF file path
+# Replace with the path to your HTML file
+input_html_path = 'D:/Projects/Html/doc/index.html'
+output_pdf_path = 'output.pdf'  # Replace with the desired output PDF file path
 
-
-def fibs_with_threads():
-    fortieth_thread = threading.Thread(target=print_fib, args=(40,))
-    forty_first_thread = threading.Thread(target=print_fib, args=(41,))
-    fortieth_thread.start()
-    forty_first_thread.start()
-    fortieth_thread.join()
-    forty_first_thread.join()
-
-
-start_threads = time.time()
-fibs_with_threads()
-end_threads = time.time()
-print(f'Threads took {end_threads - start_threads:.4f} seconds.')
+# Convert HTML file to PDF
+convert_html_file_to_pdf(input_html_path, output_pdf_path)

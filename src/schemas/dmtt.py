@@ -1,10 +1,10 @@
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 
 class DmttInfo(BaseModel):
-    id:int
+    id: int
     name: str
     person: str
     phone_number: str

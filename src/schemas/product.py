@@ -1,5 +1,4 @@
-
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 
 class ProductCreate(BaseModel):
