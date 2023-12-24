@@ -8,10 +8,10 @@ from src.schemas.connection import (CompanyConnectionCreate, ConnectionCreate,
                                     ConnectionInfo)
 from src.services.connection import ConnectionService
 
-router = APIRouter(prefix='/connection', tags=["Connection"])
+router = APIRouter(prefix='/connections', tags=["Connection"])
 
 
-@router.post("/create", response_model=ConnectionInfo)
+@router.post("/", response_model=ConnectionInfo)
 def create_connection(data: ConnectionCreate, db: Session = Depends(get_db)):
     return ConnectionService.create_connection(db=db, data=data)
 
