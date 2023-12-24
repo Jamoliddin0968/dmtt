@@ -11,7 +11,7 @@ from src.services.dmtt import DmttService
 router = APIRouter(prefix="/dmtts", tags=["Dmtt"])
 
 
-@router.get('/', response_model=List[DmttInfo])
+@router.get('', response_model=List[DmttInfo])
 def get_all_dmtt(db: Session = Depends(get_db)):
     return DmttService.get_all_dmtt(db=db)
 

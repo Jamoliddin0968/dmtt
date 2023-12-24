@@ -17,7 +17,7 @@ def create_product(data: ProductCreate, db: Session = Depends(get_db)):
     return ProductService.create_product(db=db, product_data=data)
 
 
-@router.get("/", response_model=List[ProductInfo])
+@router.get("", response_model=List[ProductInfo])
 def read_products(db: Session = Depends(get_db)):
     return ProductService.get_products(db=db)
 

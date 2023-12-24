@@ -16,7 +16,7 @@ def search_company(q: str):
     return service.search_company(q)
 
 
-@router.get("/", response_model=List[CompanyInfo])
+@router.get("", response_model=List[CompanyInfo])
 def get_all_company(db: Session = Depends(get_db), user=Depends(get_admin)):
     return service.get_all_companys(db)
 

@@ -9,10 +9,10 @@ from src.services.user import UserService
 
 # from src.utils import create_access_token, create_refresh_token
 
-router = APIRouter(prefix='/user', tags=["user",])
+router = APIRouter(prefix='/users', tags=["user",])
 
 
-@router.get("/all")
+@router.get("")
 def get_all_user(user: User = Depends(get_current_user)):
     return {"hello": "world"}
 
