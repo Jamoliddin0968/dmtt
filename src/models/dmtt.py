@@ -18,6 +18,8 @@ class Dmtt(BaseModel):
         'Connection', back_populates='dmtt')
     limit = relationship('Limit', back_populates='dmtt')
 
+    persons = relationship('Person')
+
     def __repr__(self):
         return f"<dmtt(name='{self.name}')>"
 

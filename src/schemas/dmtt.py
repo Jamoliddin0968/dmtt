@@ -1,6 +1,13 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
+
+
+class PersonInfo(BaseModel):
+    first_name: str = None
+    last_name: str = None
+    phone_number: str = None
+    tg_user_id: str = None
 
 
 class DmttInfo(BaseModel):
@@ -9,6 +16,8 @@ class DmttInfo(BaseModel):
     phone_number: str
     address: Optional[str] = None
     stir: Optional[str] = None
+
+    persons: List[PersonInfo]
 
     class ConfigDict:
         from_attributes = True
